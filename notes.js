@@ -26,18 +26,26 @@ const createNote = (title, body) => {
         notes.push(note);
         saveNotes(notes);
         return note;
-    } else console.log('ERROR: duplicate title');
+    } else return false;
 }
 
-const readNote = (id) => console.log('Reading Note: ', id);
+const readNote = (title) => {
+    let notes = fetchNotes();
+    const matchedNote = notes.filter(note => note.title === title);
+
+    if(matchedNote.length) return matchedNote[0];
+    else return false;
+};
 
 const updateNote = (id, newTitle, newBody) => console.log('Updating Note: ', id, newTitle, newBody);
 
 const deleteNote = (title) => {
     let notes = fetchNotes();
+
     const remainingNotes = notes.filter((note) => note.title !== title);
     saveNotes(remainingNotes);
-    return title;
+
+    return notes.length !== remainingNotes.length;
 }
 const listNote = () => console.log('Getting all notes');
 

@@ -6,7 +6,40 @@ const yargs = require('yargs');
 // local
 const notes = require('./notes');
 
-const argv = yargs.argv;
+const commandTitle = (desc) => {
+    return {
+        describe: desc,
+        demand: true,
+        alias: 't'
+    }
+}
+
+const commandBody = (desc) => {
+    return {
+        describe: desc,
+        demand: true,
+        alias: 'b'
+    }
+}
+
+const argv = yargs
+.command('create','Add a new note', {
+    title: commandTitle('Title of note to be create'),
+    body: commandBody('Body of the note')
+})
+.command('read','Chooses a note', {
+    title: commandTitle('Title to be read')
+})
+.command('update','Updates a note', {
+    title: commandTitle('Title of the note to be updated'),
+    body: commandBody('Updated body of the note')
+})
+.command('delete','Deletes a note', {
+    title: commandTitle('Title of note to be deleted')
+})
+.command('list','Lists all notes')
+.help()
+.argv;
 
 switch (argv._[0]) {
     case 'create':
@@ -39,21 +72,4 @@ switch (argv._[0]) {
             console.log("body: ", note.body);
         });
         break;
-    default:
-
-        console.log("methods: ['create','read','update','delete','list']");
-        
-        console.log("\ncreate: \n");
-        console.log("--title    title of note to be created");
-        console.log("--body     body of note to be created");
-
-        console.log("\nread: \n");
-        console.log("--title    title of note to be read");
-
-        console.log("\nupdate: \n");
-        console.log("--title    title of note to be updated");
-        console.log("--body     updated body of note");
-
-        console.log("\ndelete: \n");
-        console.log("--title    title of note to be deleted");
 }

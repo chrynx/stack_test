@@ -1,5 +1,3 @@
-console.log('Starting app.');
-
 // 3rd party
 const fs = require('fs');
 const _ = require('lodash');
@@ -22,7 +20,9 @@ switch (argv._[0]) {
         else console.log("note not found");
         break;
     case 'update':
-        notes.updateNote(argv.noteID, argv.newTitle, argv.newBody);
+        const updatedNote = notes.updateNote(argv.title, argv.body);
+        if(updatedNote) notes.logNote('updated', updatedNote.title, updatedNote.body);
+        else console.log("note not found");
         break;
     case 'delete':
         const deletedNote = notes.deleteNote(argv.title);
@@ -30,6 +30,30 @@ switch (argv._[0]) {
         console.log(message);
         break;
     case 'list':
-        notes.listNote();
+        const allNotes = notes.listNote();
+        console.log("-----------------------");
+        console.log('listing all notes');
+        allNotes.map(note => {
+            console.log("-----------------------");
+            console.log("title: ", note.title);
+            console.log("body: ", note.body);
+        });
         break;
+    default:
+
+        console.log("methods: ['create','read','update','delete','list']");
+        
+        console.log("\ncreate: \n");
+        console.log("--title    title of note to be created");
+        console.log("--body     body of note to be created");
+
+        console.log("\nread: \n");
+        console.log("--title    title of note to be read");
+
+        console.log("\nupdate: \n");
+        console.log("--title    title of note to be updated");
+        console.log("--body     updated body of note");
+
+        console.log("\ndelete: \n");
+        console.log("--title    title of note to be deleted");
 }

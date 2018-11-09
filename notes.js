@@ -1,5 +1,3 @@
-console.log('starting notes.js');
-
 const fs = require('fs');
 
 const fetchNotes = () => {
@@ -33,7 +31,28 @@ const readNote = (title) => {
     else return false;
 };
 
-const updateNote = (id, newTitle, newBody) => console.log('Updating Note: ', id, newTitle, newBody);
+const updateNote = (title, body) => {
+
+    const newNote = {
+        title,
+        body
+    }
+
+    let notes = fetchNotes();
+    const noteFound = notes.filter(note => note.title === title);
+
+    if(noteFound.length) {
+        const updatedNotes = notes.filter(note => {
+
+            if(note.title === title) note.body = body;
+            
+            return true;
+            
+        });
+        saveNotes(updatedNotes);
+        return newNote;
+    } else return false;
+};
 
 const deleteNote = (title) => {
     let notes = fetchNotes();
@@ -43,7 +62,7 @@ const deleteNote = (title) => {
 
     return notes.length !== remainingNotes.length;
 }
-const listNote = () => console.log('Getting all notes');
+const listNote = () => fetchNotes();
 
 const logNote = (method, title, body) => {
     console.log('--------');
